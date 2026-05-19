@@ -1,17 +1,24 @@
 {
   "categories": [
     {
-      "name": "Computer Vision",
+      "name": "Security and Privacy of AI",
       "topics": [
-        { "label": "Bangla handwritten text recognition", "href": "#pub-banganet" },
-        { "label": "monocular depth estimation", "href": "#pub-depth-estimation" },
-        { "label": "non-invasive blood component measurement", "href": "#pub-blood-component" }
+        { "label": "how people perceive and respond to AI-generated media", "href": "" },
+        { "label": "AI security education", "href": "" }
       ]
     },
     {
       "name": "Accessibility & Assistive Systems",
       "topics": [
         { "label": "real-time assistive navigation for visually impaired users", "href": "#pub-assistive-navigation" }
+      ]
+    },
+    {
+      "name": "Computer Vision",
+      "topics": [
+        { "label": "Bangla handwritten text recognition", "href": "#pub-banganet" },
+        { "label": "monocular depth estimation", "href": "#pub-depth-estimation" },
+        { "label": "non-invasive blood component measurement", "href": "#pub-blood-component" }
       ]
     },
     {
