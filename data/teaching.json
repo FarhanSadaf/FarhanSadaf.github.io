@@ -1,0 +1,76 @@
+{
+  "institutionFullName": "Khulna University of Engineering & Technology",
+  "defaultRole": "Lecturer",
+  "courses": [
+    {
+      "code": "CSE 3103",
+      "title": "Peripherals and Interfacing",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Session 2021-2022"
+    },
+    {
+      "code": "CSE 2203/CSE 2103/CSE 3115 (BME)",
+      "title": "Microprocessors and Microcontrollers",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Sessions 2021-2022, 2022-2023, 2023-2024"
+    },
+    {
+      "code": "CSE 1215 (BME)",
+      "title": "Computer Programming",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Session 2022-2023"
+    },
+    {
+      "code": "CSE 3209 (ECE)",
+      "title": "Database Systems",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Session 2022-2023"
+    },
+    {
+      "code": "CSE 4239",
+      "title": "Data Mining",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Session 2022-2023"
+    },
+    {
+      "code": "CSE 1203",
+      "title": "Digital Logic Design",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Session 2023-2024"
+    },
+    {
+      "code": "CSE 3100",
+      "title": "Web Programming Laboratory",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Sessions 2021-2022, 2022-2023"
+    },
+    {
+      "code": "CSE 2204/CSE 3116 (BME)",
+      "title": "Microprocessors and Microcontrollers Laboratory",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Session 2021-2022, 2023-2024"
+    },
+    {
+      "code": "CSE 2208",
+      "title": "Numerical Methods Laboratory",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "2022-2023"
+    },
+    {
+      "code": "CSE 4106",
+      "title": "Computer Networks Laboratory",
+      "role": "Lecturer",
+      "institution": "Khulna University of Engineering & Technology",
+      "years": "Session 2023-2024"
+    }
+  ]
+}

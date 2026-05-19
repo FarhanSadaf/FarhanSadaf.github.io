@@ -1,0 +1,48 @@
+{
+  "name": "Farhan Sadaf",
+  "role": "PhD Student",
+  "affiliation": "Arizona State University",
+  "lab": {
+    "name": "Happy Lab",
+    "url": "https://happyresearchlab.com/people/farhan_sadaf/"
+  },
+  "email": "fsadaf@asu.edu",
+  "portrait": {
+    "src": "assets/img/profile.jpg",
+    "alt": "Farhan Sadaf"
+  },
+  "bio": [
+    {
+      "text": "I am a PhD student and Graduate Research Associate at the Human Aspects in Cyber Protections and Privacy Lab ("
+    },
+    {
+      "text": "Happy Lab",
+      "url": "https://happyresearchlab.com/people/farhan_sadaf/"
+    },
+    {
+      "text": ") at Arizona State University, where we study human factors in the security, privacy, and real-world use of AI systems."
+    }
+  ],
+  "socials": [
+    {
+      "label": "Google Scholar",
+      "url": "https://scholar.google.com/citations?user=3gaslh4AAAAJ&hl=en",
+      "iconClass": "ai ai-google-scholar"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/FarhanSadaf",
+      "iconClass": "fa-brands fa-github"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/farhansadaf/",
+      "iconClass": "fa-brands fa-linkedin-in"
+    },
+    {
+      "label": "ORCID",
+      "url": "https://orcid.org/0009-0007-7550-7972",
+      "iconClass": "ai ai-orcid"
+    }
+  ]
+}

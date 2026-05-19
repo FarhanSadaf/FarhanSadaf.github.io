@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Academic research website." id="metaDescription" />
+  <title id="pageTitle">Farhan Sadaf</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+  <div class="site">
+    <div class="top-rule"></div>
+
+    <header>
+      <a class="brand" href="#home" id="brandName">Farhan Sadaf</a>
+      <nav aria-label="Main navigation" id="mainNav">
+        <a href="#home">Home</a>
+        <a href="#publications">Publications</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#service">Service</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme" id="themeToggle"></button>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero" aria-label="Profile summary">
+        <aside class="identity" id="identityBlock"></aside>
+
+        <div>
+          <p class="bio" id="bioText"></p>
+
+          <div class="research-block" id="research">
+            <div class="section-label" id="researchLabel">My Research</div>
+            <div class="research-grid" id="researchGrid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="publications">
+        <h2 id="publicationsHeading">Publications</h2>
+        <div class="pub-controls" id="pubFilters" aria-label="Publication filters">
+          <button class="filter-btn is-active" type="button" data-filter="all">All</button>
+          <button class="filter-btn" type="button" data-filter="conference">Conference</button>
+          <button class="filter-btn" type="button" data-filter="journal">Journals</button>
+        </div>
+
+        <div id="publicationList"></div>
+        <div class="status" id="publicationStatus"></div>
+      </section>
+
+      <section class="section" id="awards">
+        <h2 id="awardsHeading">Awards</h2>
+        <ul class="awards" id="awardsList"></ul>
+      </section>
+
+      <section class="section" id="teaching">
+        <h2 id="teachingHeading">Teaching</h2>
+        <div id="teachingList"></div>
+      </section>
+
+      <section class="section" id="service">
+        <h2 id="serviceHeading">Service</h2>
+        <div id="serviceList"></div>
+      </section>
+    </main>
+
+    <div class="bottom-rule"></div>
+  </div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "sourceUrl": "",
+  "pdfs": {
+    "pub-kothon": "pdfs/kothon.pdf",
+    "pub-depth-estimation": "pdfs/depth-estimation.pdf",
+    "pub-assistive-navigation": "pdfs/assistive-navigation.pdf",
+    "pub-banganet": "pdfs/banganet.pdf",
+    "pub-blood-component": "pdfs/blood-component.pdf",
+    "pub-banglamedner": "pdfs/banglamedner.pdf",
+    "pub-affective-database": "pdfs/affective-database.pdf",
+    "pub-offline-bangla-handwriting": "pdfs/offline-bangla-handwriting.pdf"
+  },
+  "bibtex": {},
+  "duplicateAliases": {
+    "monocular-depth-estimation": [
+      "depth estimation from monocular images with enhanced encoder decoder architecture"
+    ],
+    "assistive-navigation-visually-impaired": [
+      "real time wayfinding assistant for blind and low vision users"
+    ]
+  }
+}

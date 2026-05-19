@@ -1,0 +1,26 @@
+{
+  "categories": [
+    {
+      "name": "Computer Vision",
+      "topics": [
+        { "label": "Bangla handwritten text recognition", "href": "#pub-banganet" },
+        { "label": "monocular depth estimation", "href": "#pub-depth-estimation" },
+        { "label": "non-invasive blood component measurement", "href": "#pub-blood-component" }
+      ]
+    },
+    {
+      "name": "Accessibility & Assistive Systems",
+      "topics": [
+        { "label": "real-time assistive navigation for visually impaired users", "href": "#pub-assistive-navigation" }
+      ]
+    },
+    {
+      "name": "Bangla Natural Language Processing",
+      "topics": [
+        { "label": "emotion detection from Bangla text", "href": "#pub-affective-database" },
+        { "label": "medical named entity recognition", "href": "#pub-banglamedner" },
+        { "label": "Chittagonian and Sylheti dialect translation", "href": "#pub-kothon" }
+      ]
+    }
+  ]
+}

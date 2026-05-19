@@ -1,0 +1,17 @@
+{
+  "title": "Farhan Sadaf",
+  "description": "Farhan Sadaf - academic research website.",
+  "sections": {
+    "research": "My Research",
+    "publications": "Publications",
+    "awards": "Awards",
+    "teaching": "Teaching",
+    "service": "Service"
+  },
+  "navigation": [
+    { "label": "Home", "href": "#home" },
+    { "label": "Publications", "href": "#publications" },
+    { "label": "Teaching", "href": "#teaching" },
+    { "label": "Service", "href": "#service" }
+  ]
+}
