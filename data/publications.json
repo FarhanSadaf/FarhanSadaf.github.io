@@ -1,5 +1,95 @@
 {
   "sourceUrl": "",
+  "publications": [
+    {
+      "id": "pub-kothon",
+      "title": "Kothon: A Large-Scale Dataset for Machine Translation of the Chittagonian and Sylheti Dialects into Standard Bangla",
+      "authors": "Md. Atique Faisal, Farhan Sadaf, Dipta Chowdhury, H. M. Azrof, Monojit Paul Tanmay",
+      "venue": "Data in Brief, 2026",
+      "year": 2026,
+      "type": "journal",
+      "link": "https://doi.org/10.1016/j.dib.2026.112789",
+      "doi": "10.1016/j.dib.2026.112789",
+      "canonicalKey": "kothon-dialect-translation"
+    },
+    {
+      "id": "pub-depth-estimation",
+      "title": "Enhanced Encoder-Decoder Architecture for Accurate Monocular Depth Estimation",
+      "authors": "Dabbrata Das, Argho Deb Das, Farhan Sadaf",
+      "venue": "The Visual Computer, 2025",
+      "year": 2025,
+      "type": "journal",
+      "link": "https://doi.org/10.1007/s00371-025-03972-z",
+      "doi": "10.1007/s00371-025-03972-z",
+      "canonicalKey": "monocular-depth-estimation"
+    },
+    {
+      "id": "pub-assistive-navigation",
+      "title": "Real-Time Assistive Navigation for the Visually Impaired: A Scalable Approach for Indoor and Outdoor Mobility",
+      "authors": "Dabbrata Das, Argho Deb Das, Farhan Sadaf, Azhar Uddin, Tirtho Mondal",
+      "venue": "arXiv preprint arXiv:2504.20976, 2025",
+      "year": 2025,
+      "type": "preprint",
+      "link": "https://arxiv.org/abs/2504.20976",
+      "arxiv": "2504.20976",
+      "canonicalKey": "assistive-navigation-visually-impaired"
+    },
+    {
+      "id": "pub-banganet",
+      "title": "BanGaNet: A Lightweight Deep Learning Framework for Bangla Handwritten Text Recognition",
+      "authors": "Argho Deb Das, Dabbrata Das, Farhan Sadaf",
+      "venue": "28th International Conference on Computer and Information Technology (ICCIT), 2025",
+      "year": 2025,
+      "type": "conference",
+      "link": "https://doi.org/10.1109/ICCIT68739.2025.11491692",
+      "doi": "10.1109/ICCIT68739.2025.11491692",
+      "canonicalKey": "banganet-bangla-handwritten-text-recognition"
+    },
+    {
+      "id": "pub-blood-component",
+      "title": "Mobile Application to Collect Data and Measure Blood Component Level in a Non-Invasive Way",
+      "authors": "Humaira Neha, Sadman Sakib, Farhan Sadaf, S. M. Taslim Uddin Raju",
+      "venue": "26th International Conference on Computer and Information Technology (ICCIT), 2023",
+      "year": 2023,
+      "type": "conference",
+      "link": "https://doi.org/10.1109/ICCIT60459.2023.10441186",
+      "doi": "10.1109/ICCIT60459.2023.10441186",
+      "canonicalKey": "non-invasive-blood-component-measurement"
+    },
+    {
+      "id": "pub-banglamedner",
+      "title": "BanglaMedNER: A Gold Standard Medical Named Entity Recognition Corpus for Bangla Text",
+      "authors": "Abdul Muntakim, Farhan Sadaf, K. M. Azharul Hasan",
+      "venue": "6th International Conference on Electrical Information and Communication Technology (EICT), 2023",
+      "year": 2023,
+      "type": "conference",
+      "link": "https://doi.org/10.1109/EICT61409.2023.10427966",
+      "doi": "10.1109/EICT61409.2023.10427966",
+      "canonicalKey": "banglamedner"
+    },
+    {
+      "id": "pub-affective-database",
+      "title": "Building an Affective Database for Emotion Detection from Natural Bangla Text",
+      "authors": "Farhan Sadaf, Abdul Muntakim, K. M. Azharul Hasan",
+      "venue": "International Conference on Big Data, IoT and Machine Learning, 2023",
+      "year": 2023,
+      "type": "conference",
+      "link": "https://doi.org/10.1007/978-981-99-8937-9_42",
+      "doi": "10.1007/978-981-99-8937-9_42",
+      "canonicalKey": "bangla-affective-database"
+    },
+    {
+      "id": "pub-offline-bangla-handwriting",
+      "title": "Offline Bangla Handwritten Text Recognition: A Comprehensive Study of Various Deep Learning Approaches",
+      "authors": "Farhan Sadaf, S. M. Taslim Uddin Raju, Abdul Muntakim",
+      "venue": "3rd International Conference on Electrical & Electronic Engineering (ICEEE), 2021",
+      "year": 2021,
+      "type": "conference",
+      "link": "https://doi.org/10.1109/ICEEE54059.2021.9718890",
+      "doi": "10.1109/ICEEE54059.2021.9718890",
+      "canonicalKey": "offline-bangla-handwritten-text-recognition"
+    }
+  ],
   "pdfs": {
     "pub-kothon": "pdfs/kothon.pdf",
     "pub-depth-estimation": "pdfs/depth-estimation.pdf",

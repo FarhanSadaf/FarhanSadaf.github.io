@@ -4,7 +4,7 @@ Personal academic research website.
 
 Live site:
 
-https://<your-github-username>.github.io/
+https://FarhanSadaf.github.io/
 
 ## Editing
 

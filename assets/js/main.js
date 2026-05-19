@@ -10,37 +10,15 @@ const DATA_PATHS = {
 
 const DEFAULT_SITE = {
   title: "Farhan Sadaf",
-  description: "Farhan Sadaf - academic research website.",
-  sections: {
-    research: "My Research",
-    publications: "Publications",
-    awards: "Awards",
-    teaching: "Teaching",
-    service: "Service"
-  },
-  navigation: [
-    { label: "Home", href: "#home" },
-    { label: "Publications", href: "#publications" },
-    { label: "Teaching", href: "#teaching" },
-    { label: "Service", href: "#service" }
-  ]
+  description: "Academic research website.",
+  sections: {},
+  navigation: []
 };
 
 const DEFAULT_BIO = {
-  name: "Farhan Sadaf",
-  role: "PhD Student",
-  affiliation: "Arizona State University",
-  lab: { name: "Happy Lab", url: "https://happyresearchlab.com/people/farhan_sadaf/" },
-  email: "fsadaf@asu.edu",
-  portrait: {
-    src: "https://happyresearchlab.com/people/farhan_sadaf/profile.jpg",
-    alt: "Farhan Sadaf"
-  },
-  bio: [
-    { text: "I am a PhD student and Graduate Research Associate at the Human Aspects in Cyber Protections and Privacy Lab (" },
-    { text: "Happy Lab", url: "https://happyresearchlab.com/people/farhan_sadaf/" },
-    { text: ") at Arizona State University, where we study human factors in the security, privacy, and real-world use of AI systems." }
-  ],
+  lab: {},
+  portrait: {},
+  bio: [],
   socials: []
 };
 
@@ -48,101 +26,17 @@ const DEFAULT_RESEARCH = { categories: [] };
 const DEFAULT_AWARDS = { awards: [] };
 const DEFAULT_TEACHING = { courses: [] };
 const DEFAULT_SERVICE = { groups: [] };
-const DEFAULT_PUBLICATION_CONFIG = { sourceUrl: "", pdfs: {}, bibtex: {}, duplicateAliases: {} };
-
-const STATIC_PUBLICATIONS_SNAPSHOT = [
-  {
-    id: "pub-kothon",
-    title: "Kothon: A Large-Scale Dataset for Machine Translation of the Chittagonian and Sylheti Dialects into Standard Bangla",
-    authors: "Md. Atique Faisal, Farhan Sadaf, Dipta Chowdhury, H. M. Azrof, Monojit Paul Tanmay",
-    venue: "Data in Brief, 2026",
-    year: 2026,
-    type: "journal",
-    link: "https://doi.org/10.1016/j.dib.2026.112789",
-    doi: "10.1016/j.dib.2026.112789",
-    canonicalKey: "kothon-dialect-translation"
-  },
-  {
-    id: "pub-depth-estimation",
-    title: "Enhanced Encoder-Decoder Architecture for Accurate Monocular Depth Estimation",
-    authors: "Dabbrata Das, Argho Deb Das, Farhan Sadaf",
-    venue: "The Visual Computer, 2025",
-    year: 2025,
-    type: "journal",
-    link: "https://doi.org/10.1007/s00371-025-03972-z",
-    doi: "10.1007/s00371-025-03972-z",
-    canonicalKey: "monocular-depth-estimation"
-  },
-  {
-    id: "pub-assistive-navigation",
-    title: "Real-Time Assistive Navigation for the Visually Impaired: A Scalable Approach for Indoor and Outdoor Mobility",
-    authors: "Dabbrata Das, Argho Deb Das, Farhan Sadaf, Azhar Uddin, Tirtho Mondal",
-    venue: "arXiv preprint arXiv:2504.20976, 2025",
-    year: 2025,
-    type: "preprint",
-    link: "https://arxiv.org/abs/2504.20976",
-    arxiv: "2504.20976",
-    canonicalKey: "assistive-navigation-visually-impaired"
-  },
-  {
-    id: "pub-banganet",
-    title: "BanGaNet: A Lightweight Deep Learning Framework for Bangla Handwritten Text Recognition",
-    authors: "Argho Deb Das, Dabbrata Das, Farhan Sadaf",
-    venue: "28th International Conference on Computer and Information Technology (ICCIT), 2025",
-    year: 2025,
-    type: "conference",
-    link: "https://doi.org/10.1109/ICCIT68739.2025.11491692",
-    doi: "10.1109/ICCIT68739.2025.11491692",
-    canonicalKey: "banganet-bangla-handwritten-text-recognition"
-  },
-  {
-    id: "pub-blood-component",
-    title: "Mobile Application to Collect Data and Measure Blood Component Level in a Non-Invasive Way",
-    authors: "Humaira Neha, Sadman Sakib, Farhan Sadaf, S. M. Taslim Uddin Raju",
-    venue: "26th International Conference on Computer and Information Technology (ICCIT), 2023",
-    year: 2023,
-    type: "conference",
-    link: "https://doi.org/10.1109/ICCIT60459.2023.10441186",
-    doi: "10.1109/ICCIT60459.2023.10441186",
-    canonicalKey: "non-invasive-blood-component-measurement"
-  },
-  {
-    id: "pub-banglamedner",
-    title: "BanglaMedNER: A Gold Standard Medical Named Entity Recognition Corpus for Bangla Text",
-    authors: "Abdul Muntakim, Farhan Sadaf, K. M. Azharul Hasan",
-    venue: "6th International Conference on Electrical Information and Communication Technology (EICT), 2023",
-    year: 2023,
-    type: "conference",
-    link: "https://doi.org/10.1109/EICT61409.2023.10427966",
-    doi: "10.1109/EICT61409.2023.10427966",
-    canonicalKey: "banglamedner"
-  },
-  {
-    id: "pub-affective-database",
-    title: "Building an Affective Database for Emotion Detection from Natural Bangla Text",
-    authors: "Farhan Sadaf, Abdul Muntakim, K. M. Azharul Hasan",
-    venue: "International Conference on Big Data, IoT and Machine Learning, 2023",
-    year: 2023,
-    type: "conference",
-    link: "https://doi.org/10.1007/978-981-99-8937-9_42",
-    doi: "10.1007/978-981-99-8937-9_42",
-    canonicalKey: "bangla-affective-database"
-  },
-  {
-    id: "pub-offline-bangla-handwriting",
-    title: "Offline Bangla Handwritten Text Recognition: A Comprehensive Study of Various Deep Learning Approaches",
-    authors: "Farhan Sadaf, S. M. Taslim Uddin Raju, Abdul Muntakim",
-    venue: "3rd International Conference on Electrical & Electronic Engineering (ICEEE), 2021",
-    year: 2021,
-    type: "conference",
-    link: "https://doi.org/10.1109/ICEEE54059.2021.9718890",
-    doi: "10.1109/ICEEE54059.2021.9718890",
-    canonicalKey: "offline-bangla-handwritten-text-recognition"
-  }
-];
+const DEFAULT_PUBLICATION_CONFIG = { sourceUrl: "", publications: [], pdfs: {}, bibtex: {}, duplicateAliases: {} };
+const DATA_LOAD_ERROR_MESSAGE = "Some site data could not be loaded. If you opened index.html directly, run: python3 -m http.server 8000";
 
 let allPublications = [];
+let hadDataLoadError = false;
 let publicationConfig = DEFAULT_PUBLICATION_CONFIG;
+
+function setStatusMessage(message) {
+  const status = document.getElementById("publicationStatus");
+  if (status) status.textContent = message;
+}
 
 async function fetchJson(path, fallback) {
   try {
@@ -150,6 +44,8 @@ async function fetchJson(path, fallback) {
     if (!response.ok) throw new Error(`${path} returned ${response.status}`);
     return await response.json();
   } catch (error) {
+    hadDataLoadError = true;
+    setStatusMessage(DATA_LOAD_ERROR_MESSAGE);
     console.warn(`Using fallback for ${path}:`, error);
     return fallback;
   }
@@ -364,21 +260,26 @@ function dedupePublications(publications) {
 async function loadPublications(config) {
   const status = document.getElementById("publicationStatus");
   publicationConfig = { ...DEFAULT_PUBLICATION_CONFIG, ...(config || {}) };
+  const localPublications = Array.isArray(publicationConfig.publications) ? publicationConfig.publications : [];
 
   if (!publicationConfig.sourceUrl) {
-    status.textContent = "";
-    return dedupePublications(STATIC_PUBLICATIONS_SNAPSHOT);
+    if (!hadDataLoadError) {
+      status.textContent = localPublications.length ? "" : "No publication data available.";
+    }
+    return dedupePublications(localPublications);
   }
 
   try {
     const response = await fetch(publicationConfig.sourceUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`Publication endpoint returned ${response.status}`);
     const data = await response.json();
-    status.textContent = "";
+    status.textContent = hadDataLoadError ? DATA_LOAD_ERROR_MESSAGE : "";
     return dedupePublications(Array.isArray(data) ? data : data.publications || []);
   } catch (error) {
-    status.textContent = "Could not load the publication endpoint; showing the built-in publication snapshot.";
-    return dedupePublications(STATIC_PUBLICATIONS_SNAPSHOT);
+    status.textContent = localPublications.length
+      ? "Could not load the publication endpoint; showing publications from data/publications.json."
+      : DATA_LOAD_ERROR_MESSAGE;
+    return dedupePublications(localPublications);
   }
 }
 
