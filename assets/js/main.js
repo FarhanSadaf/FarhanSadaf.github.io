@@ -26,7 +26,7 @@ const DEFAULT_RESEARCH = { categories: [] };
 const DEFAULT_AWARDS = { awards: [] };
 const DEFAULT_TEACHING = { courses: [] };
 const DEFAULT_SERVICE = { groups: [] };
-const DEFAULT_PUBLICATION_CONFIG = { sourceUrl: "", publications: [], pdfs: {}, bibtex: {}, duplicateAliases: {} };
+const DEFAULT_PUBLICATION_CONFIG = { sourceUrl: "", publications: [], pdfs: {}, duplicateAliases: {} };
 const DATA_LOAD_ERROR_MESSAGE = "Some site data could not be loaded. If you opened index.html directly, run: python3 -m http.server 8000";
 
 let allPublications = [];
@@ -229,12 +229,10 @@ function scorePublication(pub) {
 function applyPublicationConfig(pub) {
   const canonicalKey = pub.canonicalKey || canonicalize(pub);
   const pdfs = publicationConfig.pdfs || {};
-  const bibtex = publicationConfig.bibtex || {};
   return {
     ...pub,
     canonicalKey,
-    pdf: pub.pdf || pdfs[pub.id] || pdfs[canonicalKey] || pdfs[normalizeTitle(pub.title)] || "",
-    bibtex: pub.bibtex || bibtex[pub.id] || bibtex[canonicalKey] || ""
+    pdf: pub.pdf || pdfs[pub.id] || pdfs[canonicalKey] || pdfs[normalizeTitle(pub.title)] || ""
   };
 }
 
@@ -292,32 +290,6 @@ function groupByYear(publications) {
   }, {});
 }
 
-function bibKey(pub) {
-  const firstAuthor = (pub.authors || "sadaf").split(",")[0].trim().split(/\s+/).pop().toLowerCase();
-  const firstTitleWord = normalizeTitle(pub.title).split(" ")[0] || "paper";
-  return `${firstAuthor}${pub.year || ""}${firstTitleWord}`;
-}
-
-function generateBibTeX(pub) {
-  const entryType = pub.type === "journal" ? "article" : pub.type === "conference" ? "inproceedings" : "misc";
-  const authors = (pub.authors || "").split(",").map(name => name.trim()).filter(Boolean).join(" and ");
-  const fields = [
-    `  title={${pub.title || ""}}`,
-    `  author={${authors}}`,
-    `  year={${pub.year || ""}}`
-  ];
-
-  if (pub.doi) fields.push(`  doi={${pub.doi}}`);
-  if (pub.arxiv) fields.push(`  eprint={${pub.arxiv}}`, "  archivePrefix={arXiv}");
-
-  const venue = pub.venue || "";
-  if (entryType === "article") fields.splice(2, 0, `  journal={${venue.replace(/,?\s*\d{4}$/, "")}}`);
-  if (entryType === "inproceedings") fields.splice(2, 0, `  booktitle={${venue.replace(/,?\s*\d{4}$/, "")}}`);
-  if (entryType === "misc" && venue) fields.splice(2, 0, `  note={${venue}}`);
-
-  return `@${entryType}{${bibKey(pub)},\n${fields.join(",\n")}\n}`;
-}
-
 function isArxivLink(link) {
   return /arxiv\.org/i.test(link || "");
 }
@@ -329,9 +301,6 @@ function actionLinks(pub) {
   else if (pub.link && !isArxivLink(pub.link)) links.push(`<a class="pub-action" href="${htmlAttr(pub.link)}">Link</a>`);
 
   if (pub.pdf) links.push(`<a class="pub-action" href="${htmlAttr(pub.pdf)}">PDF</a>`);
-
-  const bib = pub.bibtex || generateBibTeX(pub);
-  links.push(`<button class="pub-action copy-bib" type="button" data-bib="${htmlAttr(bib)}">Bib</button>`);
   return links.join("");
 }
 
@@ -387,27 +356,6 @@ function highlightPublicationFromHash() {
 function attachPublicationInteractions() {
   document.querySelectorAll(".pub-item").forEach(item => {
     item.addEventListener("click", () => flashPublication(item));
-  });
-
-  document.querySelectorAll(".copy-bib").forEach(button => {
-    button.addEventListener("click", async event => {
-      event.preventDefault();
-      event.stopPropagation();
-      const originalText = button.textContent;
-      try {
-        await navigator.clipboard.writeText(button.dataset.bib || "");
-        button.textContent = "Copied";
-      } catch (error) {
-        const textArea = document.createElement("textarea");
-        textArea.value = button.dataset.bib || "";
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        textArea.remove();
-        button.textContent = "Copied";
-      }
-      window.setTimeout(() => { button.textContent = originalText; }, 1200);
-    });
   });
 }
 
