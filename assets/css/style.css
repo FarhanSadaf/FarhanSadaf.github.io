@@ -351,14 +351,14 @@ h2 {
   list-style: none;
 }
 
-.award-item,
 .plain-item {
   border-bottom: 1px solid var(--line-soft);
   padding-bottom: 12px;
 }
 
-.award-item:last-child,
 .plain-item:last-child { border-bottom: 0; }
+
+.award-item { padding-bottom: 12px; }
 
 .item-title {
   display: block;
