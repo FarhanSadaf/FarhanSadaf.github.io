@@ -26,7 +26,7 @@ const DEFAULT_RESEARCH = { categories: [] };
 const DEFAULT_AWARDS = { awards: [] };
 const DEFAULT_TEACHING = { courses: [] };
 const DEFAULT_SERVICE = { groups: [] };
-const DEFAULT_PUBLICATION_CONFIG = { sourceUrl: "", publications: [], pdfs: {}, duplicateAliases: {} };
+const DEFAULT_PUBLICATION_CONFIG = { sourceUrl: "", note: "", publications: [], pdfs: {}, duplicateAliases: {} };
 const DATA_LOAD_ERROR_MESSAGE = "Some site data could not be loaded. If you opened index.html directly, run: python3 -m http.server 8000";
 
 let allPublications = [];
@@ -184,6 +184,11 @@ function renderService(data) {
   `).join("");
 }
 
+function renderPublicationNote(config) {
+  const note = document.getElementById("publicationNote");
+  if (note) note.textContent = config.note || "";
+}
+
 function aliasMatchFromConfig(normalizedTitle) {
   const aliases = publicationConfig.duplicateAliases || {};
   for (const [canonicalKey, aliasList] of Object.entries(aliases)) {
@@ -310,8 +315,21 @@ function publicationTitleHref(pub) {
   return pub.link || "#";
 }
 
-function emphasizeAuthor(authors) {
-  return escapeHtml(authors || "").replace(/Farhan Sadaf/g, "<strong>Farhan Sadaf</strong>");
+function formatAuthorName(name) {
+  const escaped = escapeHtml(name);
+  return escaped === "Farhan Sadaf" ? `<strong>${escaped}</strong>` : escaped;
+}
+
+function formatAuthors(pub) {
+  const authors = String(pub.authors || "").split(",").map(author => author.trim()).filter(Boolean);
+  const equalContributionCount = Number(pub.equalContributionAuthorCount || 0);
+
+  if (!authors.length) return "";
+
+  return authors.map((author, index) => {
+    const marker = index < equalContributionCount ? `<sup class="equal-marker">*</sup>` : "";
+    return `${formatAuthorName(author)}${marker}`;
+  }).join(", ");
 }
 
 function renderPublications(publications, filter = "all") {
@@ -327,7 +345,7 @@ function renderPublications(publications, filter = "all") {
         ${groups[year].map(pub => `
           <article class="pub-item" id="${htmlAttr(pub.id || pub.canonicalKey)}" data-type="${htmlAttr(pub.type)}">
             <p class="pub-title"><a href="${htmlAttr(publicationTitleHref(pub))}">${escapeHtml(pub.title)}</a></p>
-            <p class="authors">${emphasizeAuthor(pub.authors)}</p>
+            <p class="authors">${formatAuthors(pub)}</p>
             <p class="venue">${escapeHtml(pub.venue)}</p>
             <div class="pub-actions">${actionLinks(pub)}</div>
           </article>
@@ -428,6 +446,7 @@ async function init() {
   renderAwards({ ...DEFAULT_AWARDS, ...awards });
   renderTeaching({ ...DEFAULT_TEACHING, ...teaching });
   renderService({ ...DEFAULT_SERVICE, ...service });
+  renderPublicationNote({ ...DEFAULT_PUBLICATION_CONFIG, ...publicationSettings });
 
   initTheme();
   allPublications = await loadPublications(publicationSettings);

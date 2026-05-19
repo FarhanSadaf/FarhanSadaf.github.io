@@ -259,6 +259,14 @@ h2 {
   margin-bottom: 15px;
 }
 
+.publication-note {
+  color: var(--muted-2);
+  font-size: 0.84rem;
+  margin: -6px 0 12px;
+}
+
+.publication-note:empty { display: none; }
+
 .filter-btn,
 .small-btn,
 .pub-action {
@@ -334,6 +342,14 @@ h2 {
 }
 
 .authors strong { color: var(--text); }
+
+.equal-marker {
+  color: inherit;
+  font-size: 0.72em;
+  line-height: 0;
+  margin-left: 1px;
+  vertical-align: super;
+}
 
 .pub-actions {
   display: flex;

@@ -1,5 +1,6 @@
 {
   "sourceUrl": "",
+  "note": "* Indicates equal co-authorship",
   "publications": [
     {
       "id": "pub-kothon",
@@ -32,6 +33,7 @@
       "type": "preprint",
       "link": "https://arxiv.org/abs/2504.20976",
       "arxiv": "2504.20976",
+      "equalContributionAuthorCount": 3,
       "canonicalKey": "assistive-navigation-visually-impaired"
     },
     {
