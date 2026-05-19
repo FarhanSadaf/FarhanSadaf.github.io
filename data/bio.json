@@ -11,6 +11,10 @@
     "src": "assets/img/profile.jpg",
     "alt": "Farhan Sadaf"
   },
+  "favicon": {
+    "src": "assets/img/logo.jpg",
+    "type": "image/png"
+  },
   "bio": [
     {
       "text": "I am a PhD student and Graduate Research Associate at the Human Aspects in Cyber Protections and Privacy Lab ("

@@ -18,6 +18,7 @@ const DEFAULT_SITE = {
 const DEFAULT_BIO = {
   lab: {},
   portrait: {},
+  favicon: {},
   bio: [],
   socials: []
 };
@@ -112,6 +113,13 @@ function renderBio(bio) {
   const portrait = bio.portrait || {};
   const lab = bio.lab || {};
   const socials = Array.isArray(bio.socials) ? bio.socials : [];
+  const favicon = bio.favicon || {};
+  const faviconLink = document.getElementById("faviconLink");
+
+  if (faviconLink && favicon.src) {
+    faviconLink.setAttribute("href", favicon.src);
+    faviconLink.setAttribute("type", favicon.type || "image/png");
+  }
 
   identity.innerHTML = `
     <img class="portrait" src="${htmlAttr(portrait.src || "")}" alt="${htmlAttr(portrait.alt || bio.name || "Portrait")}" />
