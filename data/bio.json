@@ -24,7 +24,7 @@
       "url": "https://happyresearchlab.com/"
     },
     {
-      "text": ") at Arizona State University, where we study human-centered security and safety in AI systems."
+      "text": "), where we study human-centered security and safety in AI systems."
     }
   ],
   "socials": [
@@ -32,6 +32,12 @@
       "label": "Google Scholar",
       "url": "https://scholar.google.com/citations?user=3gaslh4AAAAJ&hl=en",
       "iconClass": "ai ai-google-scholar"
+    }
+    ,
+    {
+      "label": "ORCID",
+      "url": "https://orcid.org/0009-0007-7550-7972",
+      "iconClass": "ai ai-orcid"
     },
     {
       "label": "GitHub",
@@ -42,11 +48,6 @@
       "label": "LinkedIn",
       "url": "https://www.linkedin.com/in/farhansadaf/",
       "iconClass": "fa-brands fa-linkedin-in"
-    },
-    {
-      "label": "ORCID",
-      "url": "https://orcid.org/0009-0007-7550-7972",
-      "iconClass": "ai ai-orcid"
     }
   ]
 }
