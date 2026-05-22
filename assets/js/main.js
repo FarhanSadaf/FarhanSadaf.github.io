@@ -303,16 +303,8 @@ function groupByYear(publications) {
   }, {});
 }
 
-function isArxivLink(link) {
-  return /arxiv\.org/i.test(link || "");
-}
-
 function actionLinks(pub) {
   const links = [];
-  if (pub.doi) links.push(`<a class="pub-action" href="https://doi.org/${htmlAttr(pub.doi)}">DOI</a>`);
-  else if (pub.arxiv) links.push(`<a class="pub-action" href="https://arxiv.org/abs/${htmlAttr(pub.arxiv)}">arXiv</a>`);
-  else if (pub.link && !isArxivLink(pub.link)) links.push(`<a class="pub-action" href="${htmlAttr(pub.link)}">Link</a>`);
-
   if (pub.pdf) links.push(`<a class="pub-action" href="${htmlAttr(pub.pdf)}">PDF</a>`);
   return links.join("");
 }
@@ -368,7 +360,9 @@ function renderPublications(publications, filter = "all") {
 
 function flashPublication(item) {
   if (!item) return;
-  item.classList.remove("is-highlighted");
+  document.querySelectorAll(".pub-item.is-highlighted").forEach(highlighted => {
+    highlighted.classList.remove("is-highlighted");
+  });
   void item.offsetWidth;
   item.classList.add("is-highlighted");
 }
