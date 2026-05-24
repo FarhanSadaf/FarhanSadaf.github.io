@@ -264,7 +264,7 @@ function dedupePublications(publications) {
   });
   return Array.from(best.values()).sort((a, b) => {
     if (Number(b.year) !== Number(a.year)) return Number(b.year) - Number(a.year);
-    return String(a.title).localeCompare(String(b.title));
+    return Number(b.order || 0) - Number(a.order || 0);
   });
 }
 

@@ -24,7 +24,7 @@
     {
       "name": "Bangla Natural Language Processing",
       "topics": [
-        { "label": "emotion detection from Bangla text", "href": "#pub-affective-database" },
+        { "label": "emotion detection", "href": "#pub-affective-database" },
         { "label": "medical named entity recognition", "href": "#pub-banglamedner" },
         { "label": "Chittagonian and Sylheti dialect translation", "href": "#pub-kothon" }
       ]
