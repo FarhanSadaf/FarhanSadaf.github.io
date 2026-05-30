@@ -386,7 +386,7 @@ h2 {
 
 .plain-item:last-child { border-bottom: 0; }
 
-.award-item { padding-bottom: 12px; }
+.award-item { padding-bottom: 8px; }
 
 .item-title {
   display: block;
