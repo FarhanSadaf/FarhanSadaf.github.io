@@ -395,9 +395,12 @@ h2 {
 }
 
 .year-label {
+  position: relative;
+  top: -2px;
   color: var(--muted-2);
   font-weight: 800;
   font-size: 1rem;
+  line-height: 1.32;
 }
 
 .pub-list { display: grid; gap: 24px; }
