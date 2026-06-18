@@ -32,12 +32,6 @@
       "label": "Google Scholar",
       "url": "https://scholar.google.com/citations?user=3gaslh4AAAAJ&hl=en",
       "iconClass": "ai ai-google-scholar"
-    }
-    ,
-    {
-      "label": "ORCID",
-      "url": "https://orcid.org/0009-0007-7550-7972",
-      "iconClass": "ai ai-orcid"
     },
     {
       "label": "GitHub",

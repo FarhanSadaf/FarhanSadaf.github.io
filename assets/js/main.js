@@ -111,7 +111,6 @@ function renderSite(site) {
 function renderBio(bio) {
   const identity = document.getElementById("identityBlock");
   const portrait = bio.portrait || {};
-  const lab = bio.lab || {};
   const socials = Array.isArray(bio.socials) ? bio.socials : [];
   const favicon = bio.favicon || {};
   const faviconLink = document.getElementById("faviconLink");
@@ -123,11 +122,15 @@ function renderBio(bio) {
 
   identity.innerHTML = `
     <img class="portrait" src="${htmlAttr(portrait.src || "")}" alt="${htmlAttr(portrait.alt || bio.name || "Portrait")}" />
-    <p><strong>${escapeHtml(bio.role || "")}</strong></p>
-    <p>${escapeHtml(bio.affiliation || "")}</p>
-    ${lab.name ? `<p><a href="${htmlAttr(lab.url || "#")}">${escapeHtml(lab.name)}</a></p>` : ""}
-    ${bio.email ? `<p><a href="mailto:${htmlAttr(bio.email)}">${escapeHtml(bio.email)}</a></p>` : ""}
+    <h2 class="identity-name">${escapeHtml(bio.name || "")}</h2>
+    <p class="identity-role">${escapeHtml(bio.role || "")}</p>
+    <p class="identity-affiliation">${escapeHtml(bio.affiliation || "")}</p>
     <div class="socials" aria-label="Academic and social links">
+      ${bio.email ? `
+        <a class="icon-btn" href="mailto:${htmlAttr(bio.email)}" aria-label="Email ${htmlAttr(bio.name || "")}" title="${htmlAttr(bio.email)}">
+          <i class="fa-regular fa-envelope"></i>
+        </a>
+      ` : ""}
       ${socials.map(item => `
         <a class="icon-btn" href="${htmlAttr(item.url)}" aria-label="${htmlAttr(item.label)}" title="${htmlAttr(item.label)}">
           <i class="${htmlAttr(item.iconClass)}"></i>
@@ -144,8 +147,14 @@ function renderResearch(research) {
   const categories = Array.isArray(research.categories) ? research.categories : [];
   grid.innerHTML = categories.map(category => {
     const topics = Array.isArray(category.topics) ? category.topics : [];
+    const isPaused = Boolean(category.pause);
+    const stateLabel = isPaused ? "Paused" : "Playing";
+    const iconClass = isPaused ? "fa-solid fa-pause" : "fa-solid fa-play";
     return `
       <article class="research-card">
+        <button class="research-state" type="button" data-state="${isPaused ? "pause" : "play"}" aria-label="${stateLabel}: ${htmlAttr(category.name)}">
+          <i class="${iconClass}" aria-hidden="true"></i>
+        </button>
         <h3>${escapeHtml(category.name)}</h3>
         <p class="topic-line">
           ${topics.map(topic => `<a href="${htmlAttr(topic.href || "#")}">${escapeHtml(topic.label)}</a>`).join(", ")}
@@ -153,6 +162,33 @@ function renderResearch(research) {
       </article>
     `;
   }).join("");
+}
+
+function attachResearchStateButtons() {
+  const feedback = document.getElementById("researchFeedback");
+  const researchBlock = document.getElementById("research");
+  let feedbackTimer = null;
+
+  document.querySelectorAll(".research-state").forEach(button => {
+    button.addEventListener("click", () => {
+      button.classList.add("is-pressing");
+      window.setTimeout(() => button.classList.remove("is-pressing"), 260);
+
+      if (!feedback || !researchBlock) return;
+      if (feedbackTimer) window.clearTimeout(feedbackTimer);
+
+      const blockRect = researchBlock.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
+      feedback.style.setProperty("--tooltip-left", `${buttonRect.left - blockRect.left + (buttonRect.width / 2)}px`);
+      feedback.style.setProperty("--tooltip-top", `${buttonRect.top - blockRect.top}px`);
+      feedback.textContent = button.dataset.state === "pause" ? "Taking a break!" : "Work in progress...";
+      feedback.classList.add("is-visible");
+
+      feedbackTimer = window.setTimeout(() => {
+        feedback.classList.remove("is-visible");
+      }, 1000);
+    });
+  });
 }
 
 function renderAwards(data) {
@@ -445,6 +481,7 @@ async function init() {
   renderSite({ ...DEFAULT_SITE, ...site });
   renderBio({ ...DEFAULT_BIO, ...bio });
   renderResearch({ ...DEFAULT_RESEARCH, ...research });
+  attachResearchStateButtons();
   renderAwards({ ...DEFAULT_AWARDS, ...awards });
   renderTeaching({ ...DEFAULT_TEACHING, ...teaching });
   renderService({ ...DEFAULT_SERVICE, ...service });

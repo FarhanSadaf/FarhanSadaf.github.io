@@ -2,6 +2,7 @@
   "categories": [
     {
       "name": "Security and Privacy of AI",
+      "pause": false,
       "topics": [
         { "label": "how people perceive and respond to AI-generated media", "href": "" },
         { "label": "AI security education", "href": "" }
@@ -9,12 +10,14 @@
     },
     {
       "name": "Accessibility & Assistive Systems",
+      "pause": true,
       "topics": [
         { "label": "real-time assistive navigation for visually impaired users", "href": "#pub-assistive-navigation" }
       ]
     },
     {
       "name": "Computer Vision",
+      "pause": true,
       "topics": [
         { "label": "Bangla handwritten text recognition", "href": "#pub-banganet" },
         { "label": "monocular depth estimation", "href": "#pub-depth-estimation" },
@@ -22,7 +25,8 @@
       ]
     },
     {
-      "name": "Bangla Natural Language Processing",
+      "name": "Bangla NLP",
+      "pause": true,
       "topics": [
         { "label": "emotion detection", "href": "#pub-affective-database" },
         { "label": "medical named entity recognition", "href": "#pub-banglamedner" },
