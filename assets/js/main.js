@@ -88,6 +88,24 @@ function renderLinkedSegments(segments) {
   }).join("");
 }
 
+function setResponsiveResearchLabel(sections) {
+  const label = document.getElementById("researchLabel");
+  const mediaQuery = window.matchMedia("(max-width: 820px)");
+  const desktopLabel = sections.research || "";
+  const mobileLabel = sections.researchMobile || desktopLabel;
+  const updateLabel = () => {
+    label.textContent = mediaQuery.matches ? mobileLabel : desktopLabel;
+  };
+
+  updateLabel();
+
+  if (mediaQuery.addEventListener) {
+    mediaQuery.addEventListener("change", updateLabel);
+  } else {
+    mediaQuery.addListener(updateLabel);
+  }
+}
+
 function renderSite(site) {
   document.title = site.title || DEFAULT_SITE.title;
   document.getElementById("pageTitle").textContent = site.title || DEFAULT_SITE.title;
@@ -95,7 +113,7 @@ function renderSite(site) {
   document.getElementById("metaDescription").setAttribute("content", site.description || DEFAULT_SITE.description);
 
   const sections = { ...DEFAULT_SITE.sections, ...(site.sections || {}) };
-  document.getElementById("researchLabel").textContent = sections.research;
+  setResponsiveResearchLabel(sections);
   document.getElementById("publicationsHeading").textContent = sections.publications;
   document.getElementById("awardsHeading").textContent = sections.awards;
   document.getElementById("teachingHeading").textContent = sections.teaching;

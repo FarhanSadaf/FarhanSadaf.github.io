@@ -3,6 +3,7 @@
   "description": "Farhan Sadaf - academic research website.",
   "sections": {
     "research": "My Research Overview:",
+    "researchMobile": "My research:",
     "publications": "Publications",
     "awards": "Awards",
     "teaching": "Teaching",
