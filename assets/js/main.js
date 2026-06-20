@@ -33,6 +33,7 @@ const DATA_LOAD_ERROR_MESSAGE = "Some site data could not be loaded. If you open
 let allPublications = [];
 let hadDataLoadError = false;
 let publicationConfig = DEFAULT_PUBLICATION_CONFIG;
+let highlightedAuthorName = DEFAULT_SITE.title;
 
 function setStatusMessage(message) {
   const status = document.getElementById("publicationStatus");
@@ -137,6 +138,8 @@ function renderBio(bio) {
     faviconLink.setAttribute("href", favicon.src);
     faviconLink.setAttribute("type", favicon.type || "image/png");
   }
+
+  highlightedAuthorName = bio.name || DEFAULT_SITE.title;
 
   identity.innerHTML = `
     <img class="portrait" src="${htmlAttr(portrait.src || "")}" alt="${htmlAttr(portrait.alt || bio.name || "Portrait")}" />
@@ -371,7 +374,7 @@ function publicationTitleHref(pub) {
 
 function formatAuthorName(name) {
   const escaped = escapeHtml(name);
-  return escaped === "Farhan Sadaf" ? `<strong>${escaped}</strong>` : escaped;
+  return name === highlightedAuthorName ? `<strong>${escaped}</strong>` : escaped;
 }
 
 function formatAuthors(pub) {

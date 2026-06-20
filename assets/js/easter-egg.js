@@ -1,6 +1,9 @@
 (() => {
   const BURST_CLICK_COUNT = 5;
   const BURST_WINDOW_MS = 1100;
+  const FRAME_DURATION_MS = 16.67;
+  const VIEWPORT_CLAMP_INTERVAL_MS = 250;
+  const DEFAULT_GAME_INVITE_DELAY_MS = 3000;
   const MAX_THROW_SPEED = 22;
   const MIN_VISIBLE_EDGE = 28;
   const PIECE_SELECTORS = [
@@ -20,8 +23,7 @@
     "#teachingHeading",
     "#teachingList .course",
     "#serviceHeading",
-    "#serviceList .course",
-    ".bottom-rule"
+    "#serviceList .course"
   ];
 
   let clickTimes = [];
@@ -29,8 +31,10 @@
   let pieces = [];
   let animationId = null;
   let viewportClampTimer = null;
+  let gameInviteTimer = null;
   let lastFrameTime = 0;
   let activePointer = null;
+  let activeGamePiece = null;
   let suppressNextThemeBurst = false;
   let publicationFilterToRestore = null;
 
@@ -67,6 +71,7 @@
         cursor: grab;
         will-change: transform;
         transform-origin: center;
+        transition: opacity 420ms ease;
       }
 
       .easter-egg-piece * {
@@ -81,6 +86,20 @@
       .easter-egg-piece.is-dragging {
         cursor: grabbing;
         z-index: 10000;
+      }
+
+      .easter-egg-layer.user-game-focus .easter-egg-piece:not(.user-game-modal) {
+        opacity: 0.24;
+      }
+
+      .easter-egg-active .section,
+      .easter-egg-active .research-grid {
+        border-color: transparent !important;
+      }
+
+      .easter-egg-active .site > .bottom-rule,
+      .easter-egg-active .site-header > .top-rule {
+        visibility: hidden !important;
       }
     `;
     document.head.appendChild(style);
@@ -163,19 +182,78 @@
     return piece;
   }
 
+  function makeGameInvitePiece(index) {
+    const invite = window.UserGame.createElement();
+    layer.appendChild(invite);
+
+    const rect = invite.getBoundingClientRect();
+    invite.style.width = `${rect.width}px`;
+    invite.style.height = `${rect.height}px`;
+
+    const fromRight = Math.random() > 0.5;
+    const fromBottom = Math.random() > 0.5;
+    const cornerInset = 16;
+
+    const piece = {
+      source: null,
+      clone: invite,
+      x: fromRight ? window.innerWidth - rect.width - cornerInset : cornerInset,
+      y: fromBottom ? window.innerHeight - rect.height - cornerInset : cornerInset,
+      width: rect.width,
+      height: rect.height,
+      vx: fromRight ? -0.95 : 0.95,
+      vy: fromBottom ? -0.72 : 0.72,
+      angle: 0,
+      va: (Math.random() - 0.5) * 0.14,
+      phase: index * 0.7 + Math.random() * Math.PI,
+      dragging: false,
+      dragOffsetX: 0,
+      dragOffsetY: 0,
+      lastPointerX: 0,
+      lastPointerY: 0,
+      lastPointerTime: 0
+    };
+
+    invite.addEventListener("pointerdown", event => startDrag(event, piece));
+    invite.addEventListener("usergame:start", event => {
+      event.stopPropagation();
+      anchorGamePiece(piece);
+    });
+    window.UserGame.attachControls(invite, () => anchorGamePiece(piece));
+    updatePieceTransform(piece);
+    pieces.push(piece);
+    return piece;
+  }
+
+  function spawnGameInvite() {
+    if (!layer || !window.UserGame) return;
+    if (document.querySelector(window.UserGame.selector)) return;
+    const piece = makeGameInvitePiece(pieces.length);
+    clampPieceToViewport(piece, window.innerWidth, window.innerHeight);
+  }
+
+  function handleUserGameStart(event) {
+    const modal = event.detail?.modal;
+    if (!modal) return;
+
+    const piece = pieces.find(candidate => candidate.clone === modal);
+    if (piece) anchorGamePiece(piece);
+  }
+
   function attachFloatingControls(clone) {
     const themeButton = clone.querySelector(".theme-toggle");
-    if (!themeButton) return;
 
-    themeButton.addEventListener("pointerdown", event => {
-      event.stopPropagation();
-    });
+    if (themeButton) {
+      themeButton.addEventListener("pointerdown", event => {
+        event.stopPropagation();
+      });
 
-    themeButton.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
-      toggleThemeFromFloatingButton();
-    });
+      themeButton.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleThemeFromFloatingButton();
+      });
+    }
   }
 
   function syncFloatingThemeButtons() {
@@ -199,6 +277,24 @@
 
   function updatePieceTransform(piece) {
     piece.clone.style.transform = `translate3d(${piece.x}px, ${piece.y}px, 0) rotate(${piece.angle}deg)`;
+  }
+
+  function isActiveGameModal(piece) {
+    return (
+      piece.clone.classList.contains("user-game-modal") &&
+      piece.clone.classList.contains("is-active")
+    );
+  }
+
+  function clearRuntimeTimers() {
+    if (animationId) window.cancelAnimationFrame(animationId);
+    if (viewportClampTimer) window.clearInterval(viewportClampTimer);
+    if (gameInviteTimer) window.clearTimeout(gameInviteTimer);
+
+    animationId = null;
+    viewportClampTimer = null;
+    gameInviteTimer = null;
+    lastFrameTime = 0;
   }
 
   function clampPieceToViewport(piece, viewportWidth, viewportHeight) {
@@ -230,6 +326,7 @@
 
   function startDrag(event, piece) {
     if (!layer) return;
+    if (piece.isAnchoredGame) return;
     event.preventDefault();
 
     if (activePointer && activePointer.piece !== piece) {
@@ -279,15 +376,81 @@
     activePointer = null;
   }
 
+  function gameTargetSize(viewportWidth, viewportHeight) {
+    const config = window.UserGame?.config || {};
+    return {
+      width: Math.min(viewportWidth * 0.72, config.activeMaxWidth || 560),
+      height: Math.min(viewportHeight * 0.54, config.activeMaxHeight || 360)
+    };
+  }
+
+  function setGameTarget(piece, viewportWidth = window.innerWidth, viewportHeight = window.innerHeight) {
+    const size = gameTargetSize(viewportWidth, viewportHeight);
+    piece.targetWidth = size.width;
+    piece.targetHeight = size.height;
+    piece.targetX = (viewportWidth - size.width) / 2;
+    piece.targetY = (viewportHeight - size.height) / 2;
+  }
+
+  function anchorGamePiece(piece) {
+    if (!piece) return;
+    if (activeGamePiece === piece && piece.isAnchoredGame) return;
+
+    activeGamePiece = piece;
+    if (layer) layer.classList.add("user-game-focus");
+    piece.isAnchoredGame = true;
+    piece.dragging = false;
+    piece.vx = 0;
+    piece.vy = 0;
+    piece.va = 0;
+    piece.angle = 0;
+    piece.clone.classList.remove("is-dragging");
+    setGameTarget(piece);
+  }
+
+  function ensureActiveGamePiece() {
+    const activeModal = layer?.querySelector(".user-game-modal.is-active");
+    if (!activeModal) return;
+
+    const activePiece = pieces.find(piece => piece.clone === activeModal);
+    if (activePiece && (activeGamePiece !== activePiece || !activePiece.isAnchoredGame)) {
+      anchorGamePiece(activePiece);
+    }
+  }
+
+  function updateAnchoredGamePiece(piece, delta) {
+    setGameTarget(piece);
+
+    const easing = Math.min(1, 0.09 * delta);
+    piece.x += (piece.targetX - piece.x) * easing;
+    piece.y += (piece.targetY - piece.y) * easing;
+    piece.width += (piece.targetWidth - piece.width) * easing;
+    piece.height += (piece.targetHeight - piece.height) * easing;
+    piece.angle += (0 - piece.angle) * easing;
+    piece.clone.style.width = `${piece.width}px`;
+    piece.clone.style.height = `${piece.height}px`;
+    updatePieceTransform(piece);
+  }
+
   function animateFrame(frameTime) {
     if (!layer) return;
 
-    const delta = lastFrameTime ? clamp((frameTime - lastFrameTime) / 16.67, 0.5, 2) : 1;
+    const delta = lastFrameTime ? clamp((frameTime - lastFrameTime) / FRAME_DURATION_MS, 0.5, 2) : 1;
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     lastFrameTime = frameTime;
 
+    ensureActiveGamePiece();
     pieces.forEach(piece => {
+      if (isActiveGameModal(piece)) {
+        anchorGamePiece(piece);
+      }
+
+      if (piece.isAnchoredGame) {
+        updateAnchoredGamePiece(piece, delta);
+        return;
+      }
+
       if (piece.dragging) return;
 
       const drift = frameTime * 0.001 + piece.phase;
@@ -316,7 +479,7 @@
         piece.va *= -0.75;
       }
 
-      clampPieceToViewport(piece, viewportWidth, viewportHeight);
+      updatePieceTransform(piece);
     });
 
     animationId = window.requestAnimationFrame(animateFrame);
@@ -327,8 +490,14 @@
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
+    ensureActiveGamePiece();
 
     pieces.forEach(piece => {
+      if (piece.isAnchoredGame) {
+        setGameTarget(piece, viewportWidth, viewportHeight);
+        return;
+      }
+
       piece.vx = clamp(piece.vx, -MAX_THROW_SPEED, MAX_THROW_SPEED);
       piece.vy = clamp(piece.vy, -MAX_THROW_SPEED, MAX_THROW_SPEED);
       clampPieceToViewport(piece, viewportWidth, viewportHeight);
@@ -357,25 +526,25 @@
     document.addEventListener("pointermove", dragPiece);
     document.addEventListener("pointerup", endDrag);
     document.addEventListener("pointercancel", endDrag);
+    window.addEventListener("usergame:start", handleUserGameStart);
     window.addEventListener("resize", keepPiecesInViewport);
     window.addEventListener("orientationchange", keepPiecesInViewport);
     if (window.visualViewport) {
       window.visualViewport.addEventListener("resize", keepPiecesInViewport);
     }
-    viewportClampTimer = window.setInterval(keepPiecesInViewport, 250);
+    viewportClampTimer = window.setInterval(keepPiecesInViewport, VIEWPORT_CLAMP_INTERVAL_MS);
+    gameInviteTimer = window.setTimeout(spawnGameInvite, window.UserGame?.delayMs || DEFAULT_GAME_INVITE_DELAY_MS);
     lastFrameTime = 0;
     animationId = window.requestAnimationFrame(animateFrame);
   }
 
   function stopEasterEgg() {
-    if (animationId) window.cancelAnimationFrame(animationId);
-    if (viewportClampTimer) window.clearInterval(viewportClampTimer);
-    animationId = null;
-    viewportClampTimer = null;
+    clearRuntimeTimers();
     activePointer = null;
+    activeGamePiece = null;
 
     pieces.forEach(piece => {
-      piece.source.classList.remove("easter-egg-hidden");
+      if (piece.source) piece.source.classList.remove("easter-egg-hidden");
       piece.clone.remove();
     });
     pieces = [];
@@ -387,6 +556,7 @@
     document.removeEventListener("pointermove", dragPiece);
     document.removeEventListener("pointerup", endDrag);
     document.removeEventListener("pointercancel", endDrag);
+    window.removeEventListener("usergame:start", handleUserGameStart);
     window.removeEventListener("resize", keepPiecesInViewport);
     window.removeEventListener("orientationchange", keepPiecesInViewport);
     if (window.visualViewport) {
