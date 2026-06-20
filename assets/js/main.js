@@ -467,6 +467,39 @@ function initTheme() {
   });
 }
 
+function initDoubleTapZoomGuard() {
+  if (!("ontouchstart" in window)) return;
+
+  let lastTapTime = 0;
+  let lastTapX = 0;
+  let lastTapY = 0;
+
+  document.addEventListener("touchend", event => {
+    if (!event.changedTouches || event.changedTouches.length !== 1) return;
+    if (event.touches && event.touches.length > 0) return;
+
+    const touch = event.changedTouches[0];
+    const now = Date.now();
+    const elapsed = now - lastTapTime;
+    const movedX = Math.abs(touch.clientX - lastTapX);
+    const movedY = Math.abs(touch.clientY - lastTapY);
+    const isDoubleTap = elapsed > 0 && elapsed < 350 && movedX < 28 && movedY < 28;
+
+    if (isDoubleTap) {
+      event.preventDefault();
+
+      const clickable = event.target.closest("a, button");
+      if (clickable && typeof clickable.click === "function") {
+        window.setTimeout(() => clickable.click(), 0);
+      }
+    }
+
+    lastTapTime = now;
+    lastTapX = touch.clientX;
+    lastTapY = touch.clientY;
+  }, { capture: true, passive: false });
+}
+
 async function init() {
   const [site, bio, research, awards, teaching, service, publicationSettings] = await Promise.all([
     fetchJson(DATA_PATHS.site, DEFAULT_SITE),
@@ -488,6 +521,7 @@ async function init() {
   renderPublicationNote({ ...DEFAULT_PUBLICATION_CONFIG, ...publicationSettings });
 
   initTheme();
+  initDoubleTapZoomGuard();
   allPublications = await loadPublications(publicationSettings);
   renderPublications(allPublications);
   attachPublicationFilters();
