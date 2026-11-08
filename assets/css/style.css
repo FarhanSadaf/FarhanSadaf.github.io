@@ -225,6 +225,7 @@ main {
   aspect-ratio: 1 / 1;
   border-radius: 18px;
   object-fit: cover;
+  filter: brightness(0.9);
   border: 1px solid var(--button-border);
   background: var(--button);
   display: block;
