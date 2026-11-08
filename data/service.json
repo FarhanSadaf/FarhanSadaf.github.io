@@ -3,7 +3,10 @@
     {
       "title": "External Reviewer",
       "items": [
-        "7th International Conference on Electrical Information and Communication Technology (EICT): 2025"
+        {
+          "venue": "7th International Conference on Electrical Information and Communication Technology (EICT)",
+          "year": "2025"
+        }
       ]
     }
   ]

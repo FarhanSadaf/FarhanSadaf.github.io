@@ -148,9 +148,10 @@ function renderBio(bio) {
     <p class="identity-affiliation">${escapeHtml(bio.affiliation || "")}</p>
     <div class="socials" aria-label="Academic and social links">
       ${bio.email ? `
-        <a class="icon-btn" href="mailto:${htmlAttr(bio.email)}" aria-label="Email ${htmlAttr(bio.name || "")}" title="${htmlAttr(bio.email)}">
-          <i class="fa-regular fa-envelope"></i>
-        </a>
+        <button class="icon-btn email-copy" type="button" aria-label="Copy email address" title="Copy ${htmlAttr(bio.email)}">
+          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          <span class="email-copy-feedback" aria-live="polite" aria-atomic="true"></span>
+        </button>
       ` : ""}
       ${socials.map(item => `
         <a class="icon-btn" href="${htmlAttr(item.url)}" aria-label="${htmlAttr(item.label)}" title="${htmlAttr(item.label)}">
@@ -160,7 +161,34 @@ function renderBio(bio) {
     </div>
   `;
 
+  const emailButton = identity.querySelector(".email-copy");
+  if (emailButton) attachEmailCopyButton(emailButton, bio.email);
+
   document.getElementById("bioText").innerHTML = renderLinkedSegments(bio.bio);
+}
+
+function attachEmailCopyButton(button, email) {
+  const feedback = button.querySelector(".email-copy-feedback");
+  let resetTimer;
+
+  button.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      feedback.textContent = "Copied!";
+      button.setAttribute("aria-label", "Email address copied. Click to copy again.");
+    } catch (error) {
+      feedback.textContent = "Retry";
+      button.setAttribute("aria-label", "Could not copy email address. Click to try again.");
+    }
+
+    button.classList.add("is-feedback");
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      button.classList.remove("is-feedback");
+      feedback.textContent = "";
+      button.setAttribute("aria-label", "Copy email address");
+    }, 2000);
+  });
 }
 
 function renderResearch(research) {
@@ -207,7 +235,7 @@ function attachResearchStateButtons() {
 
       feedbackTimer = window.setTimeout(() => {
         feedback.classList.remove("is-visible");
-      }, 1000);
+      }, 1500);
     });
   });
 }
@@ -228,9 +256,9 @@ function renderTeaching(data) {
   const courses = Array.isArray(data.courses) ? data.courses : [];
   container.innerHTML = courses.map(course => `
     <article class="course">
-      <h3>${escapeHtml(course.code)} &mdash; ${escapeHtml(course.title)}</h3>
+      <h3>${escapeHtml(course.title)}</h3>
       <ul>
-        <li><strong>${escapeHtml(course.role || data.defaultRole || "Lecturer")}</strong> (${escapeHtml(course.institution || data.institutionFullName || "")}): ${escapeHtml(course.years)}</li>
+        <li><strong>${escapeHtml(course.role || data.defaultRole || "Lecturer")}</strong> (${escapeHtml(course.institution || data.institutionFullName || "")}) &middot; Session ${escapeHtml(course.session)} &middot; ${escapeHtml(course.code)}</li>
       </ul>
     </article>
   `).join("");
@@ -243,7 +271,7 @@ function renderService(data) {
     <article class="course">
       <h3>${escapeHtml(group.title)}</h3>
       <ul>
-        ${(Array.isArray(group.items) ? group.items : []).map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+        ${(Array.isArray(group.items) ? group.items : []).map(item => `<li>${escapeHtml(item.venue)} &middot; ${escapeHtml(item.year)}</li>`).join("")}
       </ul>
     </article>
   `).join("");
@@ -472,16 +500,39 @@ const THEME_ICONS = {
 
 function setThemeIcon(theme) {
   const button = document.getElementById("themeToggle");
-  button.innerHTML = theme === "dark" ? THEME_ICONS.sun : THEME_ICONS.moon;
+  button.querySelector(".theme-svg")?.remove();
+  button.insertAdjacentHTML("afterbegin", theme === "dark" ? THEME_ICONS.sun : THEME_ICONS.moon);
   button.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
 }
 
 function initTheme() {
   const button = document.getElementById("themeToggle");
   const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+  const rapidClickWindow = 1100;
+  let lastThemeClickTime = -Infinity;
+  let fadeTimer;
   setThemeIcon(currentTheme);
+  const hint = document.createElement("span");
+  hint.id = "themeHint";
+  hint.className = "theme-hint";
+  hint.setAttribute("role", "tooltip");
+  hint.textContent = "Try smashing this!";
+  button.appendChild(hint);
+  button.setAttribute("aria-describedby", hint.id);
   button.addEventListener("click", () => {
     const root = document.documentElement;
+    const now = performance.now();
+    const isRapidClick = now - lastThemeClickTime <= rapidClickWindow;
+    lastThemeClickTime = now;
+    clearTimeout(fadeTimer);
+
+    if (isRapidClick || root.classList.contains("easter-egg-active") || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      root.classList.remove("theme-fade");
+    } else {
+      root.classList.add("theme-fade");
+      fadeTimer = setTimeout(() => root.classList.remove("theme-fade"), 400);
+    }
+
     const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", nextTheme);
     setThemeIcon(nextTheme);

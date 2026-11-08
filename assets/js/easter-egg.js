@@ -507,6 +507,8 @@
   function startEasterEgg() {
     if (layer) return;
 
+    document.querySelector(".theme-hint")?.remove();
+    document.getElementById("themeToggle")?.removeAttribute("aria-describedby");
     showAllPublicationsForPieces();
     injectStyles();
     layer = document.createElement("div");

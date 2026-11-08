@@ -122,15 +122,21 @@
       }
 
       .user-game-modal.is-active {
+        --text: var(--bg);
+        --muted: var(--text);
+        --accent-strong: var(--text);
+        --line-soft: color-mix(in srgb, var(--text) 35%, transparent);
         align-content: center;
-        border-color: rgba(0, 0, 0, 0.42);
-        background: rgba(8, 14, 22, 0.84);
+        border-color: color-mix(in srgb, var(--text) 50%, transparent);
+        background: color-mix(in srgb, var(--accent) 84%, transparent);
+        color: var(--text);
         gap: 0;
         padding: 0;
       }
 
       html[data-theme="light"] .user-game-modal.is-active {
-        background: rgba(63, 95, 134, 0.42);
+        --text: #202832;
+        background: color-mix(in srgb, var(--accent) 42%, transparent);
       }
 
       .user-game-snake {
@@ -140,7 +146,7 @@
         border-radius: 999px;
         opacity: 0;
         pointer-events: none !important;
-        filter: drop-shadow(0 0 5px rgba(159, 183, 214, 0.48));
+        filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 48%, transparent));
         animation-duration: ${SNAKE_DURATION_SECONDS}s;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
@@ -207,8 +213,8 @@
         border: 1px solid var(--button-border);
         border-radius: 999px;
         padding: 8px 14px;
-        background: rgba(16, 24, 34, 0.94);
-        color: #eef2f6;
+        background: var(--button);
+        color: var(--accent);
         cursor: pointer;
         font: 400 0.58rem/1.4 "Press Start 2P", "Public Pixel", "Pixelify Sans", "Courier New", monospace;
         letter-spacing: 0;
@@ -261,14 +267,14 @@
         width: min(232px, 58vmin);
         aspect-ratio: 1;
         padding: 8px;
-        border: 2px solid var(--accent);
+        border: 2px solid var(--text);
         background:
           linear-gradient(90deg, transparent calc(33.333% - 1px), var(--line-soft) calc(33.333% - 1px), var(--line-soft) calc(33.333% + 1px), transparent calc(33.333% + 1px)),
           linear-gradient(90deg, transparent calc(66.666% - 1px), var(--line-soft) calc(66.666% - 1px), var(--line-soft) calc(66.666% + 1px), transparent calc(66.666% + 1px)),
           linear-gradient(0deg, transparent calc(33.333% - 1px), var(--line-soft) calc(33.333% - 1px), var(--line-soft) calc(33.333% + 1px), transparent calc(33.333% + 1px)),
           linear-gradient(0deg, transparent calc(66.666% - 1px), var(--line-soft) calc(66.666% - 1px), var(--line-soft) calc(66.666% + 1px), transparent calc(66.666% + 1px));
         box-shadow:
-          0 0 0 2px rgba(159, 183, 214, 0.16),
+          0 0 0 2px color-mix(in srgb, var(--text) 16%, transparent),
           inset 0 0 0 3px rgba(0, 0, 0, 0.22);
         overflow: hidden;
       }
@@ -300,8 +306,8 @@
 
       .user-game-cell:hover,
       .user-game-cell:focus-visible {
-        background: rgba(159, 183, 214, 0.15);
-        outline: 2px solid var(--accent);
+        background: color-mix(in srgb, var(--text) 15%, transparent);
+        outline: 2px solid var(--text);
         outline-offset: -2px;
       }
 
@@ -312,7 +318,7 @@
       }
 
       .user-game-cell.is-guest {
-        color: #eef2f6;
+        color: var(--text);
       }
 
       .user-game-cell.is-user {
@@ -320,7 +326,7 @@
       }
 
       .user-game-cell.is-win {
-        background: rgba(159, 183, 214, 0.24);
+        background: color-mix(in srgb, var(--text) 24%, transparent);
         color: var(--accent-strong);
       }
 
@@ -340,7 +346,7 @@
         );
         box-shadow:
           0 0 0 2px rgba(8, 14, 22, 0.32),
-          0 0 14px rgba(159, 183, 214, 0.54);
+          0 0 14px color-mix(in srgb, var(--text) 54%, transparent);
         opacity: 0;
         pointer-events: none;
         transform: translateY(-50%) rotate(var(--win-angle, 0deg)) scaleX(0);
@@ -435,13 +441,13 @@
       @keyframes userGameButtonBlink {
         0%,
         49.99% {
-          background: rgba(16, 24, 34, 0.94);
-          box-shadow: 0 0 0 rgba(159, 183, 214, 0);
+          background: var(--button);
+          box-shadow: 0 0 0 transparent;
         }
         50%,
         100% {
-          background: rgba(44, 61, 82, 0.98);
-          box-shadow: 0 0 16px rgba(159, 183, 214, 0.34);
+          background: color-mix(in srgb, var(--button) 80%, var(--accent));
+          box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 34%, transparent);
         }
       }
 
