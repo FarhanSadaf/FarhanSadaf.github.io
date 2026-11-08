@@ -143,7 +143,7 @@ function renderBio(bio) {
 
   identity.innerHTML = `
     <img class="portrait" src="${htmlAttr(portrait.src || "")}" alt="${htmlAttr(portrait.alt || bio.name || "Portrait")}" />
-    <h2 class="identity-name">${escapeHtml(bio.name || "")}</h2>
+    <h2 class="identity-name">${escapeHtml(bio.cardTitle || bio.name || "")}</h2>
     <p class="identity-role">${escapeHtml(bio.role || "")}</p>
     <p class="identity-affiliation">${escapeHtml(bio.affiliation || "")}</p>
     <div class="socials" aria-label="Academic and social links">

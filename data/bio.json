@@ -1,6 +1,7 @@
 {
   "name": "Farhan Sadaf",
-  "role": "PhD Student in Computer Science",
+  "cardTitle": "PhD Student in Computer Science",
+  "role": "Graduate Research Associate",
   "affiliation": "Arizona State University",
   "lab": {
     "name": "Happy Lab",
@@ -17,7 +18,7 @@
   },
   "bio": [
     {
-      "text": "I am a PhD student and Graduate Research Associate at the Human Aspects in Cyber Protections and Privacy ("
+      "text": "I am a doctoral researcher at Human Aspects in Cyber Protections and Privacy ("
     },
     {
       "text": "Happy",
