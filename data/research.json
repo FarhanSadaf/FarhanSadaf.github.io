@@ -4,8 +4,7 @@
       "name": "AI-Enabled Abuse",
       "pause": false,
       "topics": [
-        { "label": "Perceptions of AI through content provenance", "href": "" },
-        { "label": "AI security education", "href": "" }
+        { "label": "Perceptions of AI through content provenance", "href": "" }
       ]
     },
     {
@@ -19,7 +18,7 @@
       "name": "Computer Vision",
       "pause": true,
       "topics": [
-        { "label": "Assistive navigation for visually impaired", "href": "#pub-assistive-navigation" }
+        { "label": "Assistive navigation for visually impaired", "href": "#pub-assistive-navigation" },
         { "label": "Monocular depth estimation", "href": "#pub-depth-estimation" },
         { "label": "Handwritten text recognition", "href": "#pub-banganet" },
         { "label": "Non-invasive blood component measurement", "href": "#pub-blood-component" }
@@ -29,9 +28,9 @@
       "name": "Naural Language Processing",
       "pause": true,
       "topics": [
-        { "label": "Dialect translation", "href": "#pub-kothon" }
+        { "label": "Dialect translation", "href": "#pub-kothon" },
         { "label": "Emotion detection", "href": "#pub-affective-database" },
-        { "label": "Named entity recognition", "href": "#pub-banglamedner" },
+        { "label": "Named entity recognition", "href": "#pub-banglamedner" }
       ]
     }
   ]
